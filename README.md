@@ -54,8 +54,9 @@ A Home Assistant custom integration for advanced management of Juno Zigbee light
    - Go to **Settings** → **Devices & Services**
    - Click **Add Integration**
    - Search for "Juno RB56SC"
-   - Select your Juno device from the list (any model will be shown)
+   - Select one or more Juno devices from the list (only unconfigured devices are shown)
    - Click **Submit**
+   - Repeat if you want to add more devices later
 
 3. The integration will create additional entities for your device:
    - Light control entity (enhanced)
@@ -91,11 +92,23 @@ automation:
 
 The integration provides several diagnostic sensors:
 
-- **Firmware Version**: Shows the current firmware version installed on the device
+- **Firmware Version**: Shows the current firmware version installed on the device. This sensor automatically updates when firmware is updated through the ZHA integration.
 - **Manufacturer**: Displays the device manufacturer
 - **Model**: Shows the device model number
 
 These can be used in automations or displayed on dashboards to monitor device information.
+
+### Firmware Updates
+
+Firmware updates for Juno devices are handled through the ZHA integration:
+
+1. Check the **Firmware Version** sensor to see your current firmware version
+2. Go to **Settings** → **Devices & Services** → **Zigbee Home Automation**
+3. Select your Juno device
+4. If a firmware update is available, you'll see an option to update
+5. After updating through ZHA, the Firmware Version sensor will automatically reflect the new version
+
+**Note**: Firmware update availability depends on your Zigbee coordinator and the update files available in your ZHA configuration.
 
 ## Version Management
 
