@@ -1,14 +1,15 @@
-# Juno RB56SC Zigbee Light Integration for Home Assistant
+# Juno Zigbee Light Integration for Home Assistant
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
 [![GitHub release](https://img.shields.io/github/release/ncecowboy/Ha-juno-zigbee.svg)](https://github.com/ncecowboy/Ha-juno-zigbee/releases)
 [![License](https://img.shields.io/github/license/ncecowboy/Ha-juno-zigbee.svg)](LICENSE)
 
-A Home Assistant custom integration for advanced management of Juno RB56SC Zigbee lights. This integration extends the functionality provided by Home Assistant's native Zigbee Home Automation (ZHA) integration by adding device settings management, firmware monitoring, and enhanced control capabilities.
+A Home Assistant custom integration for advanced management of Juno Zigbee lights. This integration extends the functionality provided by Home Assistant's native Zigbee Home Automation (ZHA) integration by adding device settings management, firmware monitoring, and enhanced control capabilities. Supports all Juno light models including RB56SC, ABL-LIGHT-Z-201, and others.
 
 ## Features
 
-- **Advanced Light Control**: Enhanced control over Juno RB56SC light brightness and on/off states
+- **Advanced Light Control**: Enhanced control over Juno Zigbee light brightness and on/off states
+- **Multi-Model Support**: Compatible with all Juno light models (RB56SC, ABL-LIGHT-Z-201, and more)
 - **Settings Management**: Configure and manage device-specific settings
 - **Firmware Monitoring**: Track firmware versions and device information
 - **Device Attributes**: Access detailed device information including manufacturer, model, and firmware version
@@ -18,7 +19,7 @@ A Home Assistant custom integration for advanced management of Juno RB56SC Zigbe
 
 - Home Assistant 2024.1.0 or later
 - Zigbee Home Automation (ZHA) integration installed and configured
-- Juno RB56SC Zigbee light(s) paired with ZHA
+- Juno Zigbee light(s) paired with ZHA (any model)
 
 ## Installation
 
@@ -45,15 +46,15 @@ A Home Assistant custom integration for advanced management of Juno RB56SC Zigbe
 
 ## Configuration
 
-1. Ensure your Juno RB56SC device is already paired with ZHA:
+1. Ensure your Juno device is already paired with ZHA:
    - Go to **Settings** → **Devices & Services** → **Zigbee Home Automation**
-   - Pair your Juno RB56SC light if not already done
+   - Pair your Juno light if not already done
 
-2. Add the Juno RB56SC integration:
+2. Add the Juno integration:
    - Go to **Settings** → **Devices & Services**
    - Click **Add Integration**
    - Search for "Juno RB56SC"
-   - Select your Juno RB56SC device from the list
+   - Select your Juno device from the list (any model will be shown)
    - Click **Submit**
 
 3. The integration will create additional entities for your device:
@@ -103,18 +104,18 @@ This integration follows [Semantic Versioning](https://semver.org/):
 - **Minor version** (0.X.0): New features, backward compatible
 - **Patch version** (0.0.X): Bug fixes, backward compatible
 
-Current version: **1.0.0**
+Current version: **1.1.0**
 
 ## Troubleshooting
 
 ### No devices found during setup
 
-**Problem**: The integration reports "No Juno RB56SC devices found"
+**Problem**: The integration reports "No Juno devices found"
 
 **Solution**: 
 1. Ensure your device is paired with ZHA first
-2. Verify the device manufacturer and model in the device registry
-3. Check that the device name contains "Juno" and model contains "RB56SC"
+2. Verify the device manufacturer in the device registry shows "Juno"
+3. The integration supports all Juno light models (RB56SC, ABL-LIGHT-Z-201, etc.)
 
 ### Light control not working
 

@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-01-18
+
+### Added
+- Multi-model support: Integration now discovers all Juno light devices, not just RB56SC
+- Support for ABL-LIGHT-Z-201 and other Juno light models
+
+### Changed
+- Device discovery now filters only by manufacturer "Juno" instead of requiring specific model numbers
+- Updated documentation to reflect multi-model support
+
+### Technical
+- Removed model-specific filtering in config_flow.py
+- Cleaned up unused MODEL import
+
 ## [1.0.0] - 2026-01-18
 
 ### Added
