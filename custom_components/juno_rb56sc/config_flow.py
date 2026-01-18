@@ -64,17 +64,16 @@ class JunoRB56SCConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
     async def _get_juno_devices(self, hass: HomeAssistant) -> dict[str, str]:
-        """Get list of Juno RB56SC devices from device registry."""
+        """Get list of Juno devices from device registry."""
         device_registry = dr.async_get(hass)
         devices = {}
 
         for device in device_registry.devices.values():
-            # Check if device is a Juno RB56SC
+            # Check if device is a Juno device (any model)
             if device.manufacturer and MANUFACTURER.lower() in device.manufacturer.lower():
-                if device.model and MODEL.lower() in device.model.lower():
-                    devices[device.id] = (
-                        f"{device.name or device.model} ({device.manufacturer})"
-                    )
+                devices[device.id] = (
+                    f"{device.name or device.model} ({device.manufacturer})"
+                )
 
         return devices
 
