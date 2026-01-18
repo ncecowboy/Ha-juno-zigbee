@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Configurar Juno RB56SC Zigbee Light",
-        "description": "Selecciona un dispositivo Juno RB56SC para gestionar configuración y firmware.",
+        "description": "Selecciona uno o más dispositivos Juno para gestionar configuración y firmware.",
         "data": {
           "device": "Dispositivo"
         }
@@ -11,11 +11,13 @@
     },
     "error": {
       "cannot_connect": "Error al conectar con el dispositivo",
-      "unknown": "Error inesperado"
+      "unknown": "Error inesperado",
+      "no_devices_selected": "Por favor selecciona al menos un dispositivo"
     },
     "abort": {
-      "already_configured": "El dispositivo ya está configurado",
-      "no_devices_found": "No se encontraron dispositivos Juno RB56SC. Por favor, empareja tu dispositivo con ZHA primero."
+      "already_configured": "Todos los dispositivos seleccionados ya están configurados",
+      "no_devices_found": "No se encontraron dispositivos Juno. Por favor, empareja tu dispositivo con ZHA primero.",
+      "devices_configured": "Los dispositivos seleccionados se han configurado correctamente"
     }
   },
   "options": {
