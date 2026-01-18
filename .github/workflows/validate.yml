@@ -1,0 +1,26 @@
+name: Validate
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    name: Validate
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: HACS validation
+        uses: hacs/action@main
+        with:
+          category: integration
+          ignore: brands
+
+      - name: Hassfest validation
+        uses: home-assistant/actions/hassfest@master
