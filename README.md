@@ -170,7 +170,9 @@ Contributions are welcome! Please:
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Submit a pull request
+4. Submit a pull request with appropriate labels (see [Version Management](docs/VERSION_MANAGEMENT.md))
+
+For information about versioning and changelog guidelines, see [Version Management Guide](docs/VERSION_MANAGEMENT.md).
 
 ### Reporting Issues
 
