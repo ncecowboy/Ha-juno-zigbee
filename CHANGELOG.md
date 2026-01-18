@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-01-18
+
+### Added
+- Multiple device selection during setup: Users can now select and configure multiple Juno devices in a single setup session
+- Device filtering: Already configured devices are now excluded from the setup device list
+
+### Changed
+- Device display names in setup now show the actual device name (as set in Home Assistant) instead of combining name and manufacturer
+- Updated setup flow description to indicate support for selecting one or more devices
+- Improved error messaging for device selection scenarios
+
+### Fixed
+- Devices already configured by this integration are no longer shown in the setup flow
+- Cleaner device name presentation in the device selection list
+
 ## [1.1.0] - 2026-01-18
 
 ### Added
