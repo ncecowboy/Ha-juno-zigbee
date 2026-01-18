@@ -117,7 +117,7 @@ This integration follows [Semantic Versioning](https://semver.org/):
 - **Minor version** (0.X.0): New features, backward compatible
 - **Patch version** (0.0.X): Bug fixes, backward compatible
 
-Current version: **1.2.0**
+Current version: **1.2.1**
 
 ## Troubleshooting
 
@@ -170,7 +170,9 @@ Contributions are welcome! Please:
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Submit a pull request
+4. Submit a pull request with appropriate labels (see [Version Management](docs/VERSION_MANAGEMENT.md))
+
+For information about versioning and changelog guidelines, see [Version Management Guide](docs/VERSION_MANAGEMENT.md).
 
 ### Reporting Issues
 

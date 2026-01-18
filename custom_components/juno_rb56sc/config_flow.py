@@ -58,34 +58,29 @@ class JunoRB56SCConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 if not new_device_ids:
                     return self.async_abort(reason="already_configured")
                 
-                # If only one device, use normal flow
-                if len(new_device_ids) == 1:
-                    device_id = new_device_ids[0]
-                    await self.async_set_unique_id(device_id)
-                    self._abort_if_unique_id_configured()
-                    
-                    return self.async_create_entry(
-                        title=all_devices.get(device_id, "Juno Light"),
-                        data={CONF_DEVICE: device_id},
-                    )
+                # Create entries for all devices
+                # We create the first one through the normal flow
+                first_device_id = new_device_ids[0]
+                await self.async_set_unique_id(first_device_id)
+                self._abort_if_unique_id_configured()
                 
-                # For multiple devices, create entries for each
-                for device_id in new_device_ids:
-                    # Check if this device already has an entry
-                    existing = False
-                    for entry in self.hass.config_entries.async_entries(DOMAIN):
-                        if entry.unique_id == device_id:
-                            existing = True
-                            break
-                    
-                    if not existing:
-                        self.hass.config_entries.async_create_entry(
-                            title=all_devices.get(device_id, "Juno Light"),
-                            data={CONF_DEVICE: device_id},
+                # For additional devices (if any), initiate separate flows
+                if len(new_device_ids) > 1:
+                    for device_id in new_device_ids[1:]:
+                        # Start a new config flow for each additional device
+                        self.hass.async_create_task(
+                            self.hass.config_entries.flow.async_init(
+                                DOMAIN,
+                                context={"source": "import"},
+                                data={"device_id": device_id, "device_name": all_devices.get(device_id, "Juno Light")},
+                            )
                         )
                 
-                # For multiple devices, abort with success message
-                return self.async_abort(reason="devices_configured")
+                # Return entry for the first device
+                return self.async_create_entry(
+                    title=all_devices.get(first_device_id, "Juno Light"),
+                    data={CONF_DEVICE: first_device_id},
+                )
 
         # Get available Juno devices (excluding already configured ones)
         self._devices = await self._get_juno_devices(self.hass)
@@ -103,6 +98,26 @@ class JunoRB56SCConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=data_schema,
             errors=errors,
+        )
+
+    async def async_step_import(
+        self, import_data: dict[str, Any]
+    ) -> FlowResult:
+        """Handle import from configuration.yaml or programmatic setup."""
+        device_id = import_data.get("device_id")
+        device_name = import_data.get("device_name", "Juno Light")
+        
+        if not device_id:
+            return self.async_abort(reason="no_device_id")
+        
+        # Set unique ID and check if already configured
+        await self.async_set_unique_id(device_id)
+        self._abort_if_unique_id_configured()
+        
+        # Create the entry with consistent key naming
+        return self.async_create_entry(
+            title=device_name,
+            data={CONF_DEVICE: device_id},
         )
 
     async def _get_juno_devices(self, hass: HomeAssistant) -> dict[str, str]:
