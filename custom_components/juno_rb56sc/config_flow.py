@@ -12,7 +12,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers import device_registry as dr
 
-from .const import CONF_DEVICE, DOMAIN, MANUFACTURER, MODEL
+from .const import CONF_DEVICE, DOMAIN, MANUFACTURER
 
 _LOGGER = logging.getLogger(__name__)
 
