@@ -104,7 +104,7 @@ This integration follows [Semantic Versioning](https://semver.org/):
 - **Minor version** (0.X.0): New features, backward compatible
 - **Patch version** (0.0.X): Bug fixes, backward compatible
 
-Current version: **1.0.0**
+Current version: **1.1.0**
 
 ## Troubleshooting
 
