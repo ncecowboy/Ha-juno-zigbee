@@ -11,7 +11,6 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import (
     ATTR_FIRMWARE_VERSION,
-    ATTR_LIGHT_LEVEL,
     ATTR_MANUFACTURER,
     ATTR_MODEL,
     CONF_DEVICE,
