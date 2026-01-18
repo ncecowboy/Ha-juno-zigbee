@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-01-18
+
+### Fixed
+- Fixed AttributeError when setting up multiple devices at once
+  - Resolved crash that occurred when users selected multiple devices during configuration
+  - The error `AttributeError: 'ConfigEntries' object has no attribute 'async_create_entry'` no longer occurs
+  - Configuration flow now properly handles multi-device selection
+  - Additional devices are configured through separate import flows
+  - Impact: Users can now successfully configure multiple Juno devices in one setup session
+
+### Technical
+- Removed incorrect call to `self.hass.config_entries.async_create_entry()` which doesn't exist in the ConfigEntries API
+- Added `async_step_import()` method to handle programmatic device setup for additional devices
+- Refactored multi-device setup to use proper Home Assistant config flow patterns
+- First device is created through normal flow, additional devices use import flow
+- Addressed code review feedback to eliminate redundant data keys
+
+### Added
+- Automated version management system
+  - Created `scripts/bump_version.py` for automated version bumping across all project files
+  - Added GitHub Actions workflow (`.github/workflows/version-bump.yml`) for automatic version updates on PR merge
+  - Version bump type determined automatically from PR labels or title
+  - Automatic changelog entry creation with PR details
+  - Auto-creation and pushing of git tags for releases
+- Comprehensive version management documentation in `docs/VERSION_MANAGEMENT.md`
+  - Detailed guide on semantic versioning usage
+  - Instructions for both automated and manual version bumping
+  - Changelog writing guidelines with examples
+  - Best practices for contributors and maintainers
+
 ## [1.2.0] - 2026-01-18
 
 ### Added

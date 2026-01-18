@@ -1,0 +1,95 @@
+name: Auto Version Bump
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+      - master
+
+jobs:
+  bump-version:
+    # Only run if PR was merged (not just closed)
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Determine version bump type
+        id: bump_type
+        run: |
+          # Get PR labels and title
+          PR_LABELS="${{ join(github.event.pull_request.labels.*.name, ',') }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          
+          # Determine bump type from labels or PR title
+          if echo "$PR_LABELS" | grep -qi "major\|breaking"; then
+            BUMP_TYPE="major"
+          elif echo "$PR_LABELS" | grep -qi "minor\|feature\|enhancement"; then
+            BUMP_TYPE="minor"
+          elif echo "$PR_LABELS" | grep -qi "patch\|fix\|bugfix\|bug"; then
+            BUMP_TYPE="patch"
+          # Fallback: check PR title
+          elif echo "$PR_TITLE" | grep -qiE "^(feat|feature|enhancement)"; then
+            BUMP_TYPE="minor"
+          elif echo "$PR_TITLE" | grep -qiE "^(fix|bugfix|patch)"; then
+            BUMP_TYPE="patch"
+          elif echo "$PR_TITLE" | grep -qiE "^(breaking|major)"; then
+            BUMP_TYPE="major"
+          else
+            # Default to patch for any merged PR
+            BUMP_TYPE="patch"
+          fi
+          
+          echo "bump_type=$BUMP_TYPE" >> $GITHUB_OUTPUT
+          echo "Determined bump type: $BUMP_TYPE"
+      
+      - name: Extract PR changes for changelog
+        id: pr_info
+        run: |
+          # Get PR body and title
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          
+          # Create changelog entry based on PR title
+          echo "changes=### Fixed" >> $GITHUB_OUTPUT
+          echo "changes<<EOF" >> $GITHUB_OUTPUT
+          echo "- $PR_TITLE (#$PR_NUMBER)" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      
+      - name: Bump version
+        run: |
+          python3 scripts/bump_version.py ${{ steps.bump_type.outputs.bump_type }} --changes "${{ steps.pr_info.outputs.changes }}"
+      
+      - name: Get new version
+        id: new_version
+        run: |
+          NEW_VERSION=$(python3 -c "import json; print(json.load(open('custom_components/juno_rb56sc/manifest.json'))['version'])")
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "chore: bump version to ${{ steps.new_version.outputs.version }} [skip ci]" || exit 0
+          git push
+      
+      - name: Create and push tag
+        run: |
+          git tag v${{ steps.new_version.outputs.version }}
+          git push origin v${{ steps.new_version.outputs.version }}

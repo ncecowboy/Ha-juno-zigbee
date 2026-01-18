@@ -72,7 +72,7 @@ class JunoRB56SCConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                             self.hass.config_entries.flow.async_init(
                                 DOMAIN,
                                 context={"source": "import"},
-                                data={CONF_DEVICE: device_id, "device_id": device_id, "device_name": all_devices.get(device_id, "Juno Light")},
+                                data={"device_id": device_id, "device_name": all_devices.get(device_id, "Juno Light")},
                             )
                         )
                 
@@ -114,7 +114,7 @@ class JunoRB56SCConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         await self.async_set_unique_id(device_id)
         self._abort_if_unique_id_configured()
         
-        # Create the entry
+        # Create the entry with consistent key naming
         return self.async_create_entry(
             title=device_name,
             data={CONF_DEVICE: device_id},
