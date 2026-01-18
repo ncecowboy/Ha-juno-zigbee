@@ -11,6 +11,8 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     name: Validate
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v3
 
